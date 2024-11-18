@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{home::layout(~{::section})}">
+<head th:replace="~{header :: head}"></head>
+<body>
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2" th:each="post : ${posts}">
+            <div class="card mb-4 shadow-sm">
+                <a th:href="@{/posts/{id}(id=${post.id})}" class="text-decoration-none">
+                <img th:src="@{${post.img}}" alt="Room Image" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title h4" th:text="${post.name}">Post Name</h2>
+                    <p class="card-text" th:text="${post.content}"></p>
+                    <div th:if="${post.code}">
+                        <pre><code class="language-java" th:text="${post.code}"></code></pre>
+                    </div>
+                    <div class="small text-muted">
+                        <p><strong>Posted By:</strong> <span th:text="${post.postedBy}"></span></p>
+<!--                        <p><strong>Date:</strong> <span th:text="${post.date}"></span></p>-->
+                        <p><strong>Date:</strong> <span th:text="${#dates.format(post.date, 'yyyy-MM-dd')}"></span></p>
+
+                        <p><strong>Likes:</strong> <span th:text="${post.likeCount}"></span></p>
+                        <p><strong>Views:</strong> <span th:text="${post.viewCount}"></span></p>
+                    </div>
+                    <div th:if="${post.tags}">
+                        <p class="mt-2 mb-1"><strong>Tags:</strong></p>
+                        <div th:each="tag : ${post.tags}" class="badge bg-warning me-1" th:text="${tag}"></div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-danger" th:if="${#authentication.principal != null}" th:href="@{/logout}">Logout</a>
+    </div>
+</section>
+</body>
+</html>
