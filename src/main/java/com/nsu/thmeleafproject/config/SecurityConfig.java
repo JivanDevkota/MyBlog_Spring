@@ -33,12 +33,13 @@ public class SecurityConfig {
        return http
                .csrf(AbstractHttpConfigurer::disable)
                .authorizeHttpRequests(auth->auth
-                       .requestMatchers("users/register/**","users/login/*","/home","/posts/**", "/resources/**", "/css/**" ,"/img/**").permitAll()
+                       .requestMatchers("/login","users/register/**","users/login/*","/home","/posts/**", "/resources/**", "/css/**" ,"/img/**").permitAll()
                        .requestMatchers("/users/**").hasRole("USER")
                        .anyRequest().authenticated())
                .formLogin(form->form
                        .loginPage("/login")
-                       .defaultSuccessUrl("/login",true)
+                       .successForwardUrl("/home")
+//                       .defaultSuccessUrl("/home",true)
                        .permitAll())
                .logout(logout->logout
                        .logoutUrl("/logout")
