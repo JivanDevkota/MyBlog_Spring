@@ -33,22 +33,21 @@ public class SecurityConfig {
        return http
                .csrf(AbstractHttpConfigurer::disable)
                .authorizeHttpRequests(auth->auth
-                       .requestMatchers("/login","users/register/**","users/login/*","/home","/posts/**", "/resources/**", "/css/**" ,"/img/**").permitAll()
+                       .requestMatchers("/login","users/register/**","users/login/*","/home","/posts/**", "/resources/**","/templates/**", "/css/**" ,"/img/**").permitAll()
                        .requestMatchers("/users/**").hasRole("USER")
                        .anyRequest().authenticated())
                .formLogin(form->form
                        .loginPage("/login")
-                       .successForwardUrl("/home")
-//                       .defaultSuccessUrl("/home",true)
+                       .defaultSuccessUrl("/home",true)
                        .permitAll())
                .logout(logout->logout
                        .logoutUrl("/logout")
-                       .logoutSuccessUrl("/home")
+                       .logoutSuccessUrl("/posts")
                        .invalidateHttpSession(true)
                        .deleteCookies("JSESSIONID")
                        .permitAll())
-               .requiresChannel(channel -> channel
-                       .anyRequest().requiresSecure())
+//               .requiresChannel(channel -> channel
+//                       .anyRequest().requiresSecure())
                .build();
     }
 

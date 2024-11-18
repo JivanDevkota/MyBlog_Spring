@@ -4,7 +4,6 @@ import com.nsu.thmeleafproject.model.User;
 import com.nsu.thmeleafproject.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,16 +20,10 @@ public class LoginController {
     @GetMapping("/login")
     public String showUserLoginForm( Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/home"; // Redirect to home if already logged in
-        }
-        model.addAttribute("username", authentication.getName());
+        String username = authentication.getName();
+        model.addAttribute("username", username);
+        System.out.println("login done get");
         return "login";
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-//        model.addAttribute("username", username);
-//        System.out.println("login done get");
-//        return "login";
     }
 
 //    @PostMapping("/login")
